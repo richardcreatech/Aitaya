@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import meRoutes from "./routes/meRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
+import followRoutes from "./routes/followRoutes.js";
 
 dotenv.config();
 
@@ -31,6 +32,7 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/me", meRoutes);
 app.use("/api/posts", postRoutes);
+app.use("/api/follow", followRoutes);
 
 
 app.listen(PORT, () => {

@@ -10,6 +10,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import API_URL from "../api/my_api_url";
+import logo from "../assets/logo-mini.png"
+
 
 function SignUp() {
   async function handleSubmit(e) {
@@ -54,6 +56,8 @@ function SignUp() {
   return (
     <section className="auth_form">
       <div className="auth_intro">
+        <img src={logo} width="130" style={{}} alt="Welcome" />
+
         <h1>Create your account.</h1>
         <p>A little space for you, your people, and your moments.</p>
       </div>
