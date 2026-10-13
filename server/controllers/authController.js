@@ -1,6 +1,8 @@
 import bcrypt from "bcrypt";
 import pool from "../config/db.js";
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
+dotenv.config();
 
 function generateUsername(name) {
   const baseUsername = name
@@ -125,13 +127,17 @@ export async function login(req, res) {
       },
     );
 
-    // Store JWT in HTTP-only cookie
-    res.cookie("token", token, {
+    const isProduction = process.env.NODE_ENV === "production";
+
+    const cookieOptions = {
       httpOnly: true,
-      secure: false,
-      sameSite: "lax",
+      secure: isProduction,
+      sameSite: isProduction ? "none" : "lax",
       maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
+      path: "/",
+    };
+
+    res.cookie("token", token, cookieOptions);
 
     return res.status(200).json({
       message: "Login successful",
@@ -153,8 +159,9 @@ export async function login(req, res) {
 export function logout(req, res) {
   res.clearCookie("token", {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax",
+    secure: isProduction,
+    sameSite: isProduction ? "none" : "lax",
+    path: "/",
   });
 
   return res.status(200).json({
